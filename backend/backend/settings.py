@@ -40,6 +40,7 @@ INSTALLED_APPS = [
      'rest_framework',
      'corsheaders',
     'level1',
+    'level2',
 ]
 
 MEDIA_URL = '/media/'

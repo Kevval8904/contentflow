@@ -30,4 +30,5 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('level1.urls')),
+     path('api/youtube/', include('level2.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
