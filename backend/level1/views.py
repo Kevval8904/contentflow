@@ -378,3 +378,255 @@ def publish_instagram_media(business_id, creation_id):
     }
     response = requests.post(url, params=params)
     return response.status_code == 200
+
+
+
+
+
+
+
+
+# youtube
+# import logging
+# import os
+# from django.http import JsonResponse
+# from django.views.decorators.csrf import csrf_exempt
+# from googleapiclient.discovery import build
+# from google_auth_oauthlib.flow import InstalledAppFlow
+# from googleapiclient.http import MediaFileUpload
+
+# logger = logging.getLogger(__name__)
+
+# SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
+# CLIENT_SECRET_FILE = r'backend\level1\client_secret.json'
+
+# def get_authenticated_service():
+#     flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+#     credentials = flow.run_local_server(port=0)
+#     youtube = build('youtube', 'v3', credentials=credentials)
+#     return youtube
+
+# @csrf_exempt
+# def upload_view(request):
+#     if request.method == 'POST':
+#         if 'video' not in request.FILES:
+#             return JsonResponse({'error': 'No video file found in the request'}, status=400)
+
+#         file = request.FILES['video']
+#         media_dir = os.path.join('media')
+#         if not os.path.exists(media_dir):
+#             os.makedirs(media_dir)  # Create the directory if it doesn't exist
+
+#         file_path = os.path.join(media_dir, file.name)
+#         try:
+#             with open(file_path, 'wb+') as destination:
+#                 for chunk in file.chunks():
+#                     destination.write(chunk)
+#         except Exception as e:
+#             logger.error(f"Error saving file: {e}")
+#             return JsonResponse({'error': 'Error saving the file'}, status=500)
+
+#         youtube = get_authenticated_service()
+#         title = request.POST.get('title', 'Untitled Video')
+#         description = request.POST.get('description', '')
+#         category = request.POST.get('category', '22')  # Default to "People & Blogs"
+#         privacy_status = request.POST.get('privacy_status', 'public')
+
+#         body = {
+#             'snippet': {
+#                 'title': title,
+#                 'description': description,
+#                 'categoryId': category
+#             },
+#             'status': {
+#                 'privacyStatus': privacy_status
+#             }
+#         }
+#         print(f"Media directory: {media_dir}")
+#         print(f"File path: {file_path}")
+#         media = MediaFileUpload(file_path, chunksize=-1, resumable=True)
+#         request = youtube.videos().insert(
+#             part='snippet,status',
+#             body=body,
+#             media_body=media
+#         )
+
+#         response = None
+#         try:
+#             while response is None:
+#                 status, response = request.next_chunk()
+#                 if status:
+#                     print(f"Uploaded {int(status.progress() * 100)}%")
+#             os.remove(file_path)  # Clean up the file after upload
+#             return JsonResponse({'video_id': response['id']})
+#         except Exception as e:
+#             logger.error(f"Error uploading video: {e}")
+#             return JsonResponse({'error': 'Error uploading video'}, status=500)
+
+
+
+
+
+
+
+
+
+# import logging
+# import os
+# from django.http import JsonResponse
+# from django.views.decorators.csrf import csrf_exempt
+# from googleapiclient.discovery import build
+# from google_auth_oauthlib.flow import InstalledAppFlow
+# from googleapiclient.http import MediaFileUpload
+
+# logger = logging.getLogger(__name__)
+
+# SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
+# CLIENT_SECRET_FILE = r'backend/level1/client_secret.json'
+
+# def get_authenticated_service():
+#     try:
+#         flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+#         credentials = flow.run_local_server(port=0)
+#         youtube = build('youtube', 'v3', credentials=credentials)
+#         return youtube
+#     except Exception as e:
+#         logger.error(f"Error during authentication: {e}")
+#         raise
+
+# @csrf_exempt
+# def upload_view(request):
+#     if request.method == 'POST':
+#         if 'video' not in request.FILES:
+#             return JsonResponse({'error': 'No video file found in the request'}, status=400)
+        
+#         file = request.FILES['video']
+#         media_dir = os.path.join('media')
+#         if not os.path.exists(media_dir):
+#             os.makedirs(media_dir)
+
+#         file_path = os.path.join(media_dir, file.name)
+#         try:
+#             with open(file_path, 'wb+') as destination:
+#                 for chunk in file.chunks():
+#                     destination.write(chunk)
+#         except Exception as e:
+#             logger.error(f"Error saving file: {e}")
+#             return JsonResponse({'error': 'Error saving the file'}, status=500)
+
+#         try:
+#             youtube = get_authenticated_service()
+#             title = request.POST.get('title', 'Untitled Video')
+#             description = request.POST.get('description', '')
+#             category = request.POST.get('category', '22')
+#             privacy_status = request.POST.get('privacy_status', 'public')
+
+#             body = {
+#                 'snippet': {
+#                     'title': title,
+#                     'description': description,
+#                     'categoryId': category
+#                 },
+#                 'status': {
+#                     'privacyStatus': privacy_status
+#                 }
+#             }
+#             media = MediaFileUpload(file_path, chunksize=-1, resumable=True)
+#             request = youtube.videos().insert(
+#                 part='snippet,status',
+#                 body=body,
+#                 media_body=media
+#             )
+
+#             response = None
+#             while response is None:
+#                 status, response = request.next_chunk()
+#                 if status:
+#                     logger.info(f"Uploaded {int(status.progress() * 100)}%")
+#             os.remove(file_path)
+#             return JsonResponse({'video_id': response['id']})
+#         except Exception as e:
+#             logger.error(f"Error uploading video: {e}")
+#             return JsonResponse({'error': f'Error uploading video: {str(e)}'}, status=500)
+
+
+
+import os
+import logging
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.http import MediaFileUpload
+
+logger = logging.getLogger(__name__)
+
+# Set the scope for YouTube API
+SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
+CLIENT_SECRET_FILE = 'backend/level1/client_secret.json'
+
+def get_authenticated_service():
+    try:
+        flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+        credentials = flow.run_local_server(port=0)
+        youtube = build('youtube', 'v3', credentials=credentials)
+        return youtube
+    except Exception as e:
+        logger.error(f"Error during authentication: {e}")
+        raise
+
+@csrf_exempt
+def upload_view(request):
+    if request.method == 'POST':
+        if 'video' not in request.FILES:
+            return JsonResponse({'error': 'No video file found in the request'}, status=400)
+
+        file = request.FILES['video']
+        media_dir = os.path.join('media')
+        if not os.path.exists(media_dir):
+            os.makedirs(media_dir)
+
+        file_path = os.path.join(media_dir, file.name)
+        try:
+            with open(file_path, 'wb+') as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
+        except Exception as e:
+            logger.error(f"Error saving file: {e}")
+            return JsonResponse({'error': 'Error saving the file'}, status=500)
+
+        try:
+            youtube = get_authenticated_service()
+            title = request.POST.get('title', 'Untitled Video')
+            description = request.POST.get('description', '')
+            category = request.POST.get('category', '22')
+            privacy_status = request.POST.get('privacy_status', 'public')
+
+            body = {
+                'snippet': {
+                    'title': title,
+                    'description': description,
+                    'categoryId': category
+                },
+                'status': {
+                    'privacyStatus': privacy_status
+                }
+            }
+            media = MediaFileUpload(file_path, chunksize=-1, resumable=True)
+            request = youtube.videos().insert(
+                part='snippet,status',
+                body=body,
+                media_body=media
+            )
+
+            response = None
+            while response is None:
+                status, response = request.next_chunk()
+                if status:
+                    logger.info(f"Uploaded {int(status.progress() * 100)}%")
+                    print("i am here")
+            os.remove(file_path)
+            return JsonResponse({'video_id': response['id']})
+        except Exception as e:
+            logger.error(f"Error uploading video: {e}")
+            return JsonResponse({'error': f'Error uploading video: {str(e)}'}, status=500)

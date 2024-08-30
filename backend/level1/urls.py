@@ -8,9 +8,10 @@
 #     path('publish_instagram_media/', views.publish_instagram_media, name='publish_instagram_media'),
 # ]
 
+# level1/urls.py
 from django.urls import path
 from .views import upload_view
 
 urlpatterns = [
-    path('upload/', upload_view, name='upload'),
+    path('upload/', upload_view, name='upload_video'),
 ]
