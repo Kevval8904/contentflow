@@ -11,7 +11,11 @@ logger = logging.getLogger(__name__)
 
 # Set the scope for YouTube API
 SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
+<<<<<<< HEAD
 CLIENT_SECRET_FILE = 'C:/Users/aagam shah/Documents/College Stuff/SEM-4/Projects/ContentFlow comb/contentflow/backend/level2/client_secret.json'
+=======
+CLIENT_SECRET_FILE = 'D://ContentBuddy/contentflow/backend/level2/client_secret.json'
+>>>>>>> 1a25bed85596983093503a60a0b08491638f1e67
 
 
 def get_authenticated_service():
